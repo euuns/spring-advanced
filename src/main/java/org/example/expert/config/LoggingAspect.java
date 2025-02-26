@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -35,8 +36,8 @@ public class LoggingAspect {
         log.info("method = {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
 
         log.info("user = {}", request.getAttribute("userId"));
-        log.info("url = {}", LocalDateTime.now());
-        log.info("time = {}", request.getRequestURL().toString());
+        log.info("time = {}", LocalDateTime.now());
+        log.info("url = {}", request.getRequestURL().toString());
 
         String request = mapper.writeValueAsString(args);
         log.info("request = {}", request);
