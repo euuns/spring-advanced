@@ -6,13 +6,17 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.expert.domain.user.enums.UserRole;
+import org.springframework.web.bind.annotation.CookieValue;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,7 +49,20 @@ public class JwtFilter implements Filter {
             return;
         }
 
+
         String jwt = jwtUtil.substringToken(bearerJwt);
+
+        Cookie[] cookies = httpRequest.getCookies();
+        if (cookies == null) {
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않는 접근입니다.");
+            return;
+        }
+
+        Cookie refreshToken = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("token")).findFirst().orElse(null);
+        if (refreshToken == null) {
+            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "로그인을 해주세요.");
+            return;
+        }
 
         try {
             // JWT 유효성 검사와 claims 추출

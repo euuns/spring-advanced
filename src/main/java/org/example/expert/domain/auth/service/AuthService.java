@@ -76,7 +76,8 @@ public class AuthService {
 
     private void setTokenToCookie(String bearerToken, HttpServletResponse servletResponse) {
         String token = jwtUtil.substringToken(bearerToken);
-        Cookie cookie = new Cookie("Authorization", token);
+        Cookie cookie = new Cookie("token", token);
+        cookie.setPath("/");
         servletResponse.addCookie(cookie);
     }
 }
