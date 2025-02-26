@@ -2,6 +2,7 @@ package org.example.expert.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,12 +15,13 @@ import java.time.LocalDateTime;
 @Aspect
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class LoggingAspect {
 
     @Autowired
     private HttpServletRequest request;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper;
 
 
     @Around("execution(* org.example.expert.domain.*.*.*AdminController.*(..))")
