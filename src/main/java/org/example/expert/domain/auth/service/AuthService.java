@@ -66,6 +66,7 @@ public class AuthService {
 
         String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole());
 
+        servletResponse.setHeader("Authorization", bearerToken);
         setTokenToCookie(bearerToken, servletResponse);
 
         return new SigninResponse(bearerToken);
