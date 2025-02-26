@@ -7,13 +7,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Aspect
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class LoggingAspect {
@@ -23,9 +24,12 @@ public class LoggingAspect {
 
     private final ObjectMapper mapper;
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
 
     @Around("execution(* org.example.expert.domain.*.*.*AdminController.*(..))")
     public void adminLogging(ProceedingJoinPoint joinPoint) throws Throwable {
+
         Object[] args = joinPoint.getArgs();
 
         log.info("method = {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
@@ -39,6 +43,8 @@ public class LoggingAspect {
 
         String response = mapper.writeValueAsString(joinPoint.proceed());
         log.info("response = {}", response);
+
+
     }
 
 
