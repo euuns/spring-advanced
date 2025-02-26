@@ -48,10 +48,9 @@ public class AuthService {
                 userRole
         );
         User savedUser = userRepository.save(newUser);
+        String userEmail = savedUser.getEmail().split("@")[0];
 
-        String bearerToken = jwtUtil.createAccessToken(savedUser.getId(), savedUser.getEmail(), userRole);
-
-        return new SignupResponse(bearerToken);
+        return new SignupResponse(userEmail + "님 가입해주셔서 감사합니다.");
     }
 
     @Transactional(readOnly = true)
