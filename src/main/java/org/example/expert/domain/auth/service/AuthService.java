@@ -75,14 +75,8 @@ public class AuthService {
 
 
     private void setTokenToCookie(String bearerToken, HttpServletResponse servletResponse) {
-        try{
-
-            String token = URLEncoder.encode(bearerToken, "utf-8").replaceAll("\\+", "20%");
-            Cookie cookie = new Cookie("Authorization", token);
-            servletResponse.addCookie(cookie);
-
-        } catch (UnsupportedEncodingException e){
-            log.info(e.getMessage());
-        }
+        String token = jwtUtil.substringToken(bearerToken);
+        Cookie cookie = new Cookie("Authorization", token);
+        servletResponse.addCookie(cookie);
     }
 }
