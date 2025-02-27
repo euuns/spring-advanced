@@ -49,14 +49,15 @@ public class JwtUtil {
                         .compact();
     }
 
-    public String createRefreshToken() {
+    public String createRefreshToken(Long userId) {
         Date date = new Date();
         return BEARER_PREFIX +
                 Jwts.builder()
-                .setIssuedAt(date)
-                .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME))
-                .signWith(key, signatureAlgorithm)
-                .compact();
+                        .setSubject(String.valueOf(userId))
+                        .setIssuedAt(date)
+                        .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME))
+                        .signWith(key, signatureAlgorithm)
+                        .compact();
     }
 
     public String substringToken(String tokenValue) {

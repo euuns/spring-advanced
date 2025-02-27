@@ -3,9 +3,7 @@ package org.example.expert.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -45,8 +43,5 @@ public class LoggingAspect {
         String response = mapper.writeValueAsString(joinPoint.proceed());
         log.info("response = {}", response);
 
-
     }
-
-
 }

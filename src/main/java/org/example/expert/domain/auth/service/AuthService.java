@@ -64,7 +64,7 @@ public class AuthService {
         }
 
         String accessToken = jwtUtil.createAccessToken(user.getId(), user.getEmail(), user.getUserRole());
-        String refreshToken = jwtUtil.createRefreshToken();
+        String refreshToken = jwtUtil.createRefreshToken(user.getId());
 
         servletResponse.setHeader("Authorization", accessToken);
 
